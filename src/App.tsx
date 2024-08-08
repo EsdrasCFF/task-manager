@@ -1,5 +1,5 @@
 export default function App() {
-  const test = "string"
+  const test = 'string'
 
   return (
     <>
