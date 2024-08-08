@@ -1,0 +1,4 @@
+{
+ "*.tsx": ["prettier --write"],
+ "*.ts": ["prettier --write"]
+}
