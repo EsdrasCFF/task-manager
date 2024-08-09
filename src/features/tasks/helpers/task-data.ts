@@ -1,4 +1,12 @@
-export const tasksData = [
+export interface TaskData {
+  id: number
+  title: string
+  description: string
+  time: 'afternoon' | 'morning' | 'evening'
+  status: 'done' | 'in_progress' | 'not_started'
+}
+
+export const tasksData: TaskData[] = [
   {
     id: 1,
     title: 'Fazer Compras',
