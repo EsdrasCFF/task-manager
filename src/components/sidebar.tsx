@@ -1,3 +1,4 @@
+import { Home, ListCheck } from 'lucide-react'
 import { SidebarButton } from './sidebar-button'
 
 export function Sidebar() {
@@ -14,8 +15,12 @@ export function Sidebar() {
       </div>
 
       <div className="flex flex-col gap-2 p-2 text-sm">
-        <SidebarButton title="Início" />
-        <SidebarButton title="Minhas Tarefas" variant="selected" />
+        <SidebarButton title="Início" icon={Home} />
+        <SidebarButton
+          title="Minhas Tarefas"
+          variant="selected"
+          icon={ListCheck}
+        />
       </div>
     </aside>
   )

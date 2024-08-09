@@ -1,11 +1,17 @@
 import { twMerge } from 'tailwind-merge'
+import { LucideIcon } from 'lucide-react'
 
 interface Props {
   title: string
   variant?: 'selected' | 'unselected'
+  icon: LucideIcon
 }
 
-export function SidebarButton({ title, variant = 'unselected' }: Props) {
+export function SidebarButton({
+  title,
+  variant = 'unselected',
+  icon: Icon,
+}: Props) {
   return (
     <a
       href="#"
@@ -14,7 +20,7 @@ export function SidebarButton({ title, variant = 'unselected' }: Props) {
         variant === 'selected' ? 'bg-lightBlue text-primary' : 'text-darkBlue'
       )}
     >
-      {title}
+      <Icon size={24} className="mr-1" /> {title}
     </a>
   )
 }
