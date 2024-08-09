@@ -14,8 +14,12 @@ export default {
         darkBlue: "#35383E",
         lightBlue: "#E6F7F8",
         darkGray: "#818181",
+        mediumGray: "#D9D9D9",
         textGray: "#9A9C9F",
-        lightGray: "#F4F4F5"
+        lightGray: "#F4F4F5",
+        darkYellow: "#FFAA04",
+        lightYellow: "#FFEDCB",
+        yellow: "#C17F1C"
       }
     },
   },
