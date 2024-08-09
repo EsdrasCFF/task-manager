@@ -1,6 +1,6 @@
-import { Plus, Sun, Trash2 } from 'lucide-react'
+import { CloudSun, Moon, Plus, Sun, Trash2 } from 'lucide-react'
 import { Button } from './button'
-import { DayShift } from './day-shift'
+import { TaskSeparator } from './task-separator'
 
 export function Tasks() {
   return (
@@ -21,8 +21,18 @@ export function Tasks() {
       </div>
 
       {/* TASK LIST */}
-      <div>
-        <DayShift title="Manhã" icon={Sun} />
+      <div className="mt-6 space-y-3 rounded-lg bg-white p-6">
+        <div className="space-y-3">
+          <TaskSeparator title="Manhã" icon={Sun} />
+        </div>
+
+        <div className="space-y-3">
+          <TaskSeparator title="Tarde" icon={CloudSun} />
+        </div>
+
+        <div className="space-y-3">
+          <TaskSeparator title="Noite" icon={Moon} />
+        </div>
       </div>
     </div>
   )
