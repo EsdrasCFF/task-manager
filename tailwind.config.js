@@ -13,7 +13,7 @@ export default {
         primary: "#00ADB5",
         darkBlue: "#35383E",
         lightBlue: "#E6F7F8",
-        
+        darkGray: "#818181"
       }
     },
   },
