@@ -4,6 +4,7 @@ import { TaskSeparator } from './task-separator'
 import { useState } from 'react'
 import { TaskStatus, tasksData } from '../features/tasks/helpers/task-data'
 import { TaskItem } from './taks-item'
+import { toast } from 'sonner'
 
 export function Tasks() {
   const [tasks, setTasks] = useState(tasksData)
@@ -19,14 +20,17 @@ export function Tasks() {
       }
 
       if (task.status === 'done') {
+        toast.warning('Tarefa não realizada')
         return { ...task, status: TaskStatus.NOT_STARTED }
       }
 
       if (task.status === 'in_progress') {
+        toast.success('Tarefa concluída com sucesso!')
         return { ...task, status: TaskStatus.DONE }
       }
 
       if (task.status === 'not_started') {
+        toast.success('Tarefa iniciada com sucesso!')
         return { ...task, status: TaskStatus.IN_PROGRESS }
       }
 
@@ -39,6 +43,7 @@ export function Tasks() {
   function handleTaksDeleteClick(taskId: number) {
     const newTaks = tasks.filter((task) => task.id !== taskId)
     setTasks(newTaks)
+    toast.success('Tarefa deletada com sucesso!')
   }
 
   return (
