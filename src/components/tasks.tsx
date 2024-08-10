@@ -2,7 +2,7 @@ import { CloudSun, Moon, Plus, Sun, Trash2 } from 'lucide-react'
 import { Button } from './button'
 import { TaskSeparator } from './task-separator'
 import { useState } from 'react'
-import { tasksData } from '../features/tasks/helpers/task-data'
+import { TaskStatus, tasksData } from '../features/tasks/helpers/task-data'
 import { TaskItem } from './taks-item'
 
 export function Tasks() {
@@ -11,6 +11,30 @@ export function Tasks() {
   const morningTasks = tasks.filter((task) => task.time == 'morning')
   const afternoonTasks = tasks.filter((task) => task.time == 'afternoon')
   const eveningTasks = tasks.filter((task) => task.time == 'evening')
+
+  function handleTaskItemButtonClick(taskId: number) {
+    const newTaks = tasks.map((task) => {
+      if (task.id !== taskId) {
+        return task
+      }
+
+      if (task.status === 'done') {
+        return { ...task, status: TaskStatus.NOT_STARTED }
+      }
+
+      if (task.status === 'in_progress') {
+        return { ...task, status: TaskStatus.DONE }
+      }
+
+      if (task.status === 'not_started') {
+        return { ...task, status: TaskStatus.IN_PROGRESS }
+      }
+
+      return task
+    })
+
+    setTasks(newTaks)
+  }
 
   return (
     <div className="mx-9 mt-[70px] w-full">
@@ -28,7 +52,7 @@ export function Tasks() {
             title="Limpar Tarefas"
             icon={Trash2}
             variant="outline"
-            onClick={() => setTasks}
+            onClick={() => {}}
           />
           <Button title="Nova Tarefa" icon={Plus} />
         </div>
@@ -39,21 +63,33 @@ export function Tasks() {
         <div className="space-y-3">
           <TaskSeparator title="Manhã" icon={Sun} />
           {morningTasks.map((task) => (
-            <TaskItem key={task.id} task={task} />
+            <TaskItem
+              key={task.id}
+              task={task}
+              handleTaskButtonClick={handleTaskItemButtonClick}
+            />
           ))}
         </div>
 
         <div className="space-y-3">
           <TaskSeparator title="Tarde" icon={CloudSun} />
           {afternoonTasks.map((task) => (
-            <TaskItem key={task.id} task={task} />
+            <TaskItem
+              key={task.id}
+              task={task}
+              handleTaskButtonClick={handleTaskItemButtonClick}
+            />
           ))}
         </div>
 
         <div className="space-y-3">
           <TaskSeparator title="Noite" icon={Moon} />
           {eveningTasks.map((task) => (
-            <TaskItem key={task.id} task={task} />
+            <TaskItem
+              key={task.id}
+              task={task}
+              handleTaskButtonClick={handleTaskItemButtonClick}
+            />
           ))}
         </div>
       </div>

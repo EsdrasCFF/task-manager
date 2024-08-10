@@ -4,13 +4,14 @@ import { twMerge } from 'tailwind-merge'
 
 interface Props {
   task: TaskData
+  handleTaskButtonClick: (taskId: number) => void
 }
 
-export function TaskItem({ task }: Props) {
+export function TaskItem({ task, handleTaskButtonClick }: Props) {
   return (
     <div
       className={twMerge(
-        'flex w-full items-center justify-between rounded-lg p-2',
+        'flex w-full items-center justify-between rounded-lg p-2 transition',
         task.status === 'done' && 'bg-lightBlue text-primary',
         task.status === 'in_progress' && 'bg-lightYellow text-yellow',
         task.status === 'not_started' && 'bg-lightGray text-gray-600'
@@ -24,12 +25,15 @@ export function TaskItem({ task }: Props) {
             task.status === 'in_progress' && 'bg-darkYellow',
             task.status === 'not_started' && 'bg-gray-400'
           )}
+          onClick={() => handleTaskButtonClick(task.id)}
         >
           {task.status === 'done' && <Check size={16} strokeWidth={3} />}
           {task.status === 'in_progress' && (
             <LoaderCircle size={16} strokeWidth={3} className="animate-spin" />
           )}
-          {task.status === 'not_started' && <X size={16} strokeWidth={3} />}
+          {task.status === 'not_started' && (
+            <X size={16} strokeWidth={3} className="text-gray-400" />
+          )}
         </button>
 
         <p className="text-sm leading-none">{task.title}</p>
