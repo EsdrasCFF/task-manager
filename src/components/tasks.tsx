@@ -4,7 +4,7 @@ import { toast } from 'sonner'
 
 import { tasksData, TaskStatus } from '../features/tasks/helpers/task-data'
 import { AddTaskDialog } from './add-task-dialog'
-import { Button } from './button'
+import { ButtonWithIcon } from './button-icon'
 import { TaskItem } from './taks-item'
 import { TaskSeparator } from './task-separator'
 
@@ -61,13 +61,13 @@ export function Tasks() {
         </div>
 
         <div className="flex h-full items-end gap-3">
-          <Button
+          <ButtonWithIcon
             title="Limpar Tarefas"
             icon={Trash2}
             variant="outline"
             onClick={() => {}}
           />
-          <Button
+          <ButtonWithIcon
             title="Nova Tarefa"
             icon={Plus}
             onClick={() => setAddTaskDialogIsOpen(true)}

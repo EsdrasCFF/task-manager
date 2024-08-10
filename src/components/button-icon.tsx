@@ -8,7 +8,7 @@ interface ButtonProps extends ComponentProps<'button'> {
   variant?: 'primary' | 'outline'
 }
 
-export function Button({
+export function ButtonWithIcon({
   icon: Icon,
   title,
   variant = 'primary',
