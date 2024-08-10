@@ -1,10 +1,11 @@
 import { CloudSun, Moon, Plus, Sun, Trash2 } from 'lucide-react'
-import { Button } from './button'
-import { TaskSeparator } from './task-separator'
 import { useState } from 'react'
-import { TaskStatus, tasksData } from '../features/tasks/helpers/task-data'
-import { TaskItem } from './taks-item'
 import { toast } from 'sonner'
+
+import { tasksData, TaskStatus } from '../features/tasks/helpers/task-data'
+import { Button } from './button'
+import { TaskItem } from './taks-item'
+import { TaskSeparator } from './task-separator'
 
 export function Tasks() {
   const [tasks, setTasks] = useState(tasksData)

@@ -1,4 +1,5 @@
 import { Home, ListCheck } from 'lucide-react'
+
 import { SidebarButton } from './sidebar-button'
 
 export function Sidebar() {

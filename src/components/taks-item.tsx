@@ -1,6 +1,7 @@
 import { Check, ExternalLink, LoaderCircle, Trash2, X } from 'lucide-react'
-import { TaskData } from '../features/tasks/helpers/task-data'
 import { twMerge } from 'tailwind-merge'
+
+import { TaskData } from '../features/tasks/helpers/task-data'
 
 interface Props {
   task: TaskData

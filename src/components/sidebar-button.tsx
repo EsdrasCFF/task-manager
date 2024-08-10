@@ -1,5 +1,5 @@
-import { twMerge } from 'tailwind-merge'
 import { LucideIcon } from 'lucide-react'
+import { twMerge } from 'tailwind-merge'
 
 interface Props {
   title: string
