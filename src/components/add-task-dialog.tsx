@@ -1,12 +1,14 @@
 import { createPortal } from 'react-dom'
 
+import { Button } from './button'
 import { Input } from './input'
 
 type Props = {
   isOpen: boolean
+  handleCancelClick: () => void
 }
 
-export function AddTaskDialog({ isOpen }: Props) {
+export function AddTaskDialog({ isOpen, handleCancelClick }: Props) {
   if (!isOpen) return null
 
   return createPortal(
@@ -23,6 +25,14 @@ export function AddTaskDialog({ isOpen }: Props) {
             label="Descrição"
             id="description"
           />
+
+          <div className="flex gap-3">
+            <Button variant="secondary" onClick={handleCancelClick}>
+              {' '}
+              Cancelar{' '}
+            </Button>
+            <Button variant="primary"> Salvas </Button>
+          </div>
         </div>
       </div>
     </div>,

@@ -49,6 +49,10 @@ export function Tasks() {
     toast.success('Tarefa deletada com sucesso!')
   }
 
+  function handleCloseDialogClick() {
+    setAddTaskDialogIsOpen(false)
+  }
+
   return (
     <div className="mx-9 mt-[70px] w-full">
       {/* BUTTON AND TITLES */}
@@ -114,7 +118,10 @@ export function Tasks() {
         </div>
       </div>
 
-      <AddTaskDialog isOpen={addTaskDialogIsOpen} />
+      <AddTaskDialog
+        isOpen={addTaskDialogIsOpen}
+        handleCancelClick={handleCloseDialogClick}
+      />
     </div>
   )
 }
