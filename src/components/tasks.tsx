@@ -3,12 +3,14 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 import { tasksData, TaskStatus } from '../features/tasks/helpers/task-data'
+import { AddTaskDialog } from './add-task-dialog'
 import { Button } from './button'
 import { TaskItem } from './taks-item'
 import { TaskSeparator } from './task-separator'
 
 export function Tasks() {
   const [tasks, setTasks] = useState(tasksData)
+  const [addTaskDialogIsOpen, setAddTaskDialogIsOpen] = useState(false)
 
   const morningTasks = tasks.filter((task) => task.time == 'morning')
   const afternoonTasks = tasks.filter((task) => task.time == 'afternoon')
@@ -65,7 +67,11 @@ export function Tasks() {
             variant="outline"
             onClick={() => {}}
           />
-          <Button title="Nova Tarefa" icon={Plus} />
+          <Button
+            title="Nova Tarefa"
+            icon={Plus}
+            onClick={() => setAddTaskDialogIsOpen(true)}
+          />
         </div>
       </div>
 
@@ -107,6 +113,8 @@ export function Tasks() {
           ))}
         </div>
       </div>
+
+      <AddTaskDialog isOpen={addTaskDialogIsOpen} />
     </div>
   )
 }
