@@ -36,6 +36,11 @@ export function Tasks() {
     setTasks(newTaks)
   }
 
+  function handleTaksDeleteClick(taskId: number) {
+    const newTaks = tasks.filter((task) => task.id !== taskId)
+    setTasks(newTaks)
+  }
+
   return (
     <div className="mx-9 mt-[70px] w-full">
       {/* BUTTON AND TITLES */}
@@ -67,6 +72,7 @@ export function Tasks() {
               key={task.id}
               task={task}
               handleButtonClick={handleTaskItemButtonClick}
+              handleDeleteClick={handleTaksDeleteClick}
             />
           ))}
         </div>
@@ -78,6 +84,7 @@ export function Tasks() {
               key={task.id}
               task={task}
               handleButtonClick={handleTaskItemButtonClick}
+              handleDeleteClick={handleTaksDeleteClick}
             />
           ))}
         </div>
@@ -89,6 +96,7 @@ export function Tasks() {
               key={task.id}
               task={task}
               handleButtonClick={handleTaskItemButtonClick}
+              handleDeleteClick={handleTaksDeleteClick}
             />
           ))}
         </div>

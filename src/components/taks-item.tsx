@@ -5,9 +5,14 @@ import { twMerge } from 'tailwind-merge'
 interface Props {
   task: TaskData
   handleButtonClick: (taskId: number) => void
+  handleDeleteClick: (taskId: number) => void
 }
 
-export function TaskItem({ task, handleButtonClick }: Props) {
+export function TaskItem({
+  task,
+  handleButtonClick,
+  handleDeleteClick,
+}: Props) {
   return (
     <div
       className={twMerge(
@@ -39,8 +44,12 @@ export function TaskItem({ task, handleButtonClick }: Props) {
         <p className="text-sm leading-none">{task.title}</p>
       </div>
 
-      <div className="flex gap-1 text-textGray">
-        <Trash2 size={18} />
+      <div className="flex gap-1 text-textGray transition-colors">
+        <Trash2
+          size={18}
+          onClick={() => handleDeleteClick(task.id)}
+          className="hover:cursor-pointer hover:text-gray-500"
+        />
         <ExternalLink size={18} />
       </div>
     </div>
