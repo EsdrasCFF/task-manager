@@ -66,7 +66,7 @@ export function Tasks() {
             <TaskItem
               key={task.id}
               task={task}
-              handleTaskButtonClick={handleTaskItemButtonClick}
+              handleButtonClick={handleTaskItemButtonClick}
             />
           ))}
         </div>
@@ -77,7 +77,7 @@ export function Tasks() {
             <TaskItem
               key={task.id}
               task={task}
-              handleTaskButtonClick={handleTaskItemButtonClick}
+              handleButtonClick={handleTaskItemButtonClick}
             />
           ))}
         </div>
@@ -88,7 +88,7 @@ export function Tasks() {
             <TaskItem
               key={task.id}
               task={task}
-              handleTaskButtonClick={handleTaskItemButtonClick}
+              handleButtonClick={handleTaskItemButtonClick}
             />
           ))}
         </div>

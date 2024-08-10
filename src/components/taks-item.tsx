@@ -1,13 +1,13 @@
-import { Check, ExternalLink, LoaderCircle, X } from 'lucide-react'
+import { Check, ExternalLink, LoaderCircle, Trash2, X } from 'lucide-react'
 import { TaskData } from '../features/tasks/helpers/task-data'
 import { twMerge } from 'tailwind-merge'
 
 interface Props {
   task: TaskData
-  handleTaskButtonClick: (taskId: number) => void
+  handleButtonClick: (taskId: number) => void
 }
 
-export function TaskItem({ task, handleTaskButtonClick }: Props) {
+export function TaskItem({ task, handleButtonClick }: Props) {
   return (
     <div
       className={twMerge(
@@ -25,7 +25,7 @@ export function TaskItem({ task, handleTaskButtonClick }: Props) {
             task.status === 'in_progress' && 'bg-darkYellow',
             task.status === 'not_started' && 'bg-gray-400'
           )}
-          onClick={() => handleTaskButtonClick(task.id)}
+          onClick={() => handleButtonClick(task.id)}
         >
           {task.status === 'done' && <Check size={16} strokeWidth={3} />}
           {task.status === 'in_progress' && (
@@ -39,7 +39,10 @@ export function TaskItem({ task, handleTaskButtonClick }: Props) {
         <p className="text-sm leading-none">{task.title}</p>
       </div>
 
-      <ExternalLink size={20} />
+      <div className="flex gap-1 text-textGray">
+        <Trash2 size={18} />
+        <ExternalLink size={18} />
+      </div>
     </div>
   )
 }
