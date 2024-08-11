@@ -1,19 +1,15 @@
 import { CloudSun, Moon, Plus, Sun, Trash2 } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
-import {
-  TaskData,
-  tasksData,
-  TaskStatus,
-} from '../features/tasks/helpers/task-data'
+import { TaskData, TaskStatus } from '../features/tasks/helpers/task-data'
 import { AddTaskDialog } from './add-task-dialog'
 import { ButtonWithIcon } from './button-icon'
 import { TaskItem } from './taks-item'
 import { TaskSeparator } from './task-separator'
 
 export function Tasks() {
-  const [tasks, setTasks] = useState(tasksData)
+  const [tasks, setTasks] = useState<TaskData[]>([])
   const [addTaskDialogIsOpen, setAddTaskDialogIsOpen] = useState(false)
 
   const morningTasks = tasks.filter((task) => task.time == 'morning')
@@ -61,6 +57,19 @@ export function Tasks() {
     setTasks((prevState) => [...prevState, task])
     setAddTaskDialogIsOpen(false)
   }
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const response = await fetch('http://localhost:3000/tasks')
+
+      const data: TaskData[] = await response.json()
+
+      setTasks(data)
+    }
+
+    fetchTasks()
+  }, [])
+
   return (
     <div className="mx-9 mt-[70px] w-full">
       {/* BUTTON AND TITLES */}
