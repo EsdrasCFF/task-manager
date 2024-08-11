@@ -119,6 +119,7 @@ export function AddTaskDialog({ isOpen, handleCancelClick, handleSubmit }: Props
                   id="title"
                   ref={titleRef}
                   errorMessage={titleError?.errorMessage}
+                  disabled={addTaskIsLoading}
                 />
 
                 <InputSelect
@@ -126,6 +127,7 @@ export function AddTaskDialog({ isOpen, handleCancelClick, handleSubmit }: Props
                   id="period"
                   value={period}
                   onChange={(e) => setPeriod(e.target.value)}
+                  disabled={addTaskIsLoading}
                 />
 
                 <Input
@@ -134,6 +136,7 @@ export function AddTaskDialog({ isOpen, handleCancelClick, handleSubmit }: Props
                   id="description"
                   ref={descriptionRef}
                   errorMessage={descriptionError?.errorMessage}
+                  disabled={addTaskIsLoading}
                 />
 
                 <div className="flex gap-3">

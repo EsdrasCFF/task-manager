@@ -1,13 +1,6 @@
 {
   "tasks": [
     {
-      "id": "5",
-      "title": "Devocinal",
-      "description": "Fazer devocional diario",
-      "time": "evening",
-      "status": "in_progress"
-    },
-    {
       "id": "8a872c47-14f2-4d32-8a7d-c0c3d1aaa1e2",
       "title": "Devocional",
       "description": "Fazer devocional a noite",
@@ -54,13 +47,6 @@
       "title": "Implove Loading",
       "description": "Improve loading",
       "time": "afternoon",
-      "status": "not_started"
-    },
-    {
-      "id": "d8deb06f-d934-4c0c-86ce-522ca3269741",
-      "title": "New Task",
-      "description": "New Task",
-      "time": "morning",
       "status": "not_started"
     }
   ]
