@@ -6,6 +6,7 @@ import { CSSTransition } from 'react-transition-group'
 
 import { Button } from './button'
 import { Input } from './input'
+import { InputSelect } from './input-select'
 
 type Props = {
   isOpen: boolean
@@ -43,7 +44,7 @@ export function AddTaskDialog({ isOpen, handleCancelClick }: Props) {
                   label="Título"
                   id="title"
                 />
-                <Input placeholder="Horário" label="Período" id="period" />
+                <InputSelect label="Horário" id="period" />
                 <Input
                   placeholder="Descreva a tarefa"
                   label="Descrição"
