@@ -1,5 +1,6 @@
 import { Check, ExternalLink, Loader2, LoaderCircle, Trash2, X } from 'lucide-react'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { tv } from 'tailwind-variants'
 
@@ -84,7 +85,9 @@ export function TaskItem({ task, handleButtonClick, handleDeleteClick }: Props) 
           <Loader2 size={18} className="animate-spin" />
         )}
 
-        <ExternalLink size={18} />
+        <Link to={`/tasks/${task.id}`} className="transition hover:text-gray-500">
+          <ExternalLink size={18} />
+        </Link>
       </div>
     </div>
   )
