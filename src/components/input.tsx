@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react'
+import { ComponentProps, forwardRef,Ref } from 'react'
 
 interface InputProps extends ComponentProps<'input'> {
   label?: string
@@ -6,12 +6,10 @@ interface InputProps extends ComponentProps<'input'> {
   errorMessage?: string | undefined
 }
 
-export function Input({
-  label,
-  id,
-  errorMessage = undefined,
-  ...rest
-}: InputProps) {
+function Input(
+  { label, id, errorMessage = undefined, ...rest }: InputProps,
+  ref: Ref<HTMLInputElement>
+) {
   return (
     <div className="flex w-full flex-col space-y-1">
       {label && (
@@ -22,6 +20,7 @@ export function Input({
       <input
         id={id}
         className="w-full rounded-lg border border-gray100 px-4 py-3 text-sm font-light outline-primary"
+        ref={ref}
         {...rest}
       />
       {errorMessage && (
@@ -32,3 +31,7 @@ export function Input({
     </div>
   )
 }
+
+export default forwardRef(Input)
+
+Input.displayName = 'Input'

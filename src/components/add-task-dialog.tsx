@@ -1,13 +1,13 @@
 import './add-task-dialog.css'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { CSSTransition } from 'react-transition-group'
 
 import { generateId } from '../features/tasks/helpers/generate-id'
 import { TaskData, TaskStatus } from '../features/tasks/helpers/task-data'
 import { Button } from './button'
-import { Input } from './input'
+import Input from './input'
 import { InputSelect } from './input-select'
 
 interface ErrosData {
@@ -26,13 +26,13 @@ export function AddTaskDialog({
   handleCancelClick,
   handleSubmit,
 }: Props) {
+  const [period, setPeriod] = useState('morning')
+  const [erros, setErrors] = useState<ErrosData[]>([])
+
   const nodeRef = useRef(null)
 
-  const [title, setTitle] = useState('')
-  const [period, setPeriod] = useState('morning')
-  const [description, setDescription] = useState('')
-
-  const [erros, setErrors] = useState<ErrosData[]>([])
+  const titleRef = useRef<HTMLInputElement>(null)
+  const descriptionRef = useRef<HTMLInputElement>(null)
 
   const titleError = erros.find((error) => error.inputName === 'title')
   const descriptionError = erros.find(
@@ -42,7 +42,10 @@ export function AddTaskDialog({
   function handleSaveButtonClick() {
     const newErros = []
 
-    if (!title.trim()) {
+    const title = titleRef.current?.value
+    const description = descriptionRef.current?.value
+
+    if (!title?.trim()) {
       newErros.push({
         inputName: 'title',
         errorMessage: 'Título é obrigatório!',
@@ -56,7 +59,7 @@ export function AddTaskDialog({
       })
     }
 
-    if (!description.trim()) {
+    if (!description?.trim()) {
       newErros.push({
         inputName: 'description',
         errorMessage: 'Descrição é obrigatório!',
@@ -65,7 +68,7 @@ export function AddTaskDialog({
 
     setErrors(newErros)
 
-    if (newErros.length > 0) {
+    if (newErros.length > 0 || !title || !description) {
       return
     }
 
@@ -77,13 +80,6 @@ export function AddTaskDialog({
       status: TaskStatus.NOT_STARTED,
     })
   }
-
-  useEffect(() => {
-    if (isOpen == false) {
-      setDescription('')
-      setTitle('')
-    }
-  }, [isOpen])
 
   return (
     <CSSTransition
@@ -112,8 +108,7 @@ export function AddTaskDialog({
                   placeholder="Título da tarefa"
                   label="Título"
                   id="title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  ref={titleRef}
                   errorMessage={titleError?.errorMessage}
                 />
 
@@ -128,8 +123,7 @@ export function AddTaskDialog({
                   placeholder="Descreva a tarefa"
                   label="Descrição"
                   id="description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  ref={descriptionRef}
                   errorMessage={descriptionError?.errorMessage}
                 />
 
