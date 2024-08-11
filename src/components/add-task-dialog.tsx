@@ -3,8 +3,8 @@ import './add-task-dialog.css'
 import { useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { CSSTransition } from 'react-transition-group'
+import { v4 as uuidv4 } from 'uuid'
 
-import { generateId } from '../features/tasks/helpers/generate-id'
 import { TaskData, TaskStatus } from '../features/tasks/helpers/task-data'
 import { Button } from './button'
 import Input from './input'
@@ -73,7 +73,7 @@ export function AddTaskDialog({
     }
 
     handleSubmit({
-      id: generateId(),
+      id: uuidv4(),
       title,
       description,
       time: period,

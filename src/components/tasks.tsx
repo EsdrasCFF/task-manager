@@ -16,7 +16,7 @@ export function Tasks() {
   const afternoonTasks = tasks.filter((task) => task.time == 'afternoon')
   const eveningTasks = tasks.filter((task) => task.time == 'evening')
 
-  function handleTaskItemButtonClick(taskId: number) {
+  function handleTaskItemButtonClick(taskId: string) {
     const newTaks = tasks.map((task) => {
       if (task.id !== taskId) {
         return task
@@ -43,7 +43,15 @@ export function Tasks() {
     setTasks(newTaks)
   }
 
-  function handleTaksDeleteClick(taskId: number) {
+  async function handleTaksDeleteClick(taskId: string) {
+    const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
+      method: 'DELETE',
+    })
+
+    if (!response.ok) {
+      return toast.error('Erro ao tentar deletar tarega! Tente novamente.')
+    }
+
     const newTaks = tasks.filter((task) => task.id !== taskId)
     setTasks(newTaks)
     toast.success('Tarefa deletada com sucesso!')
@@ -53,7 +61,16 @@ export function Tasks() {
     setAddTaskDialogIsOpen(false)
   }
 
-  function handleCreateTaksClick(task: TaskData) {
+  async function handleCreateTaksClick(task: TaskData) {
+    const response = await fetch('http://localhost:3000/tasks', {
+      method: 'POST',
+      body: JSON.stringify(task),
+    })
+
+    if (!response.ok) {
+      return toast.error('Erro ao adicinar tarefa. Por favor, tente novamente!')
+    }
+
     setTasks((prevState) => [...prevState, task])
     setAddTaskDialogIsOpen(false)
   }

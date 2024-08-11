@@ -15,13 +15,6 @@
       "status": "in_progress"
     },
     {
-      "id": "3",
-      "title": "Reunião TOTVS",
-      "description": "Reunião com a Totvs, preparar material",
-      "time": "morning",
-      "status": "not_started"
-    },
-    {
       "id": "4",
       "title": "Aula de Ingles",
       "description": "Finalizar aula de inglês",
@@ -36,16 +29,16 @@
       "status": "in_progress"
     },
     {
-      "id": "6",
-      "title": "Aula de Ingles",
-      "description": "Finalizar aula de inglês",
-      "time": "evening",
+      "id": "f8b943a3-4476-44e7-8389-f945b1cbe64e",
+      "title": "English Class",
+      "description": "Go to english class",
+      "time": "morning",
       "status": "not_started"
     },
     {
-      "id": "181722",
-      "title": "Nova Tarefa",
-      "description": "Nova Tarefa Teste",
+      "id": "1610eac7-23a0-47c1-b9ec-7705c62a4cbc",
+      "title": "Camping in the Woods",
+      "description": "My friend and I will go camping in the woods",
       "time": "afternoon",
       "status": "not_started"
     }

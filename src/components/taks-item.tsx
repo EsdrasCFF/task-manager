@@ -5,8 +5,8 @@ import { TaskData } from '../features/tasks/helpers/task-data'
 
 interface Props {
   task: TaskData
-  handleButtonClick: (taskId: number) => void
-  handleDeleteClick: (taskId: number) => void
+  handleButtonClick: (taskId: string) => void
+  handleDeleteClick: (taskId: string) => void
 }
 
 export function TaskItem({
@@ -40,6 +40,7 @@ export function TaskItem({
       },
     },
   })
+
   return (
     <div className={taksItem({ status })}>
       <div className="flex items-center gap-3">
