@@ -2,7 +2,11 @@ import { CloudSun, Moon, Plus, Sun, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-import { tasksData, TaskStatus } from '../features/tasks/helpers/task-data'
+import {
+  TaskData,
+  tasksData,
+  TaskStatus,
+} from '../features/tasks/helpers/task-data'
 import { AddTaskDialog } from './add-task-dialog'
 import { ButtonWithIcon } from './button-icon'
 import { TaskItem } from './taks-item'
@@ -53,6 +57,10 @@ export function Tasks() {
     setAddTaskDialogIsOpen(false)
   }
 
+  function handleCreateTaksClick(task: TaskData) {
+    setTasks((prevState) => [...prevState, task])
+    setAddTaskDialogIsOpen(false)
+  }
   return (
     <div className="mx-9 mt-[70px] w-full">
       {/* BUTTON AND TITLES */}
@@ -121,6 +129,7 @@ export function Tasks() {
       <AddTaskDialog
         isOpen={addTaskDialogIsOpen}
         handleCancelClick={handleCloseDialogClick}
+        handleSubmit={handleCreateTaksClick}
       />
     </div>
   )

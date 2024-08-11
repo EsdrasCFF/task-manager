@@ -8,7 +8,7 @@ export interface TaskData {
   id: number
   title: string
   description: string
-  time: 'afternoon' | 'morning' | 'evening'
+  time: string
   status: TaskStatus
 }
 

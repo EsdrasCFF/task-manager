@@ -1,6 +1,5 @@
 import { ComponentProps } from 'react'
 
-import { TaskStatus } from '../features/tasks/helpers/task-data'
 interface InputSelectProps extends ComponentProps<'select'> {
   label: string
   id: string
@@ -17,9 +16,9 @@ export function InputSelect({ label, id, ...rest }: InputSelectProps) {
         id={id}
         className="w-full rounded-lg border border-gray100 px-4 py-3 text-sm font-light outline-primary"
       >
-        <option value={TaskStatus.DONE}>Manhã</option>
-        <option value={TaskStatus.IN_PROGRESS}>Tarde</option>
-        <option value={TaskStatus.NOT_STARTED}>Noite</option>
+        <option value="morning">Manhã</option>
+        <option value="afternoon">Tarde</option>
+        <option value="evening">Noite</option>
       </select>
     </div>
   )

@@ -1,9 +1,11 @@
 import './add-task-dialog.css'
 
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { CSSTransition } from 'react-transition-group'
 
+import { generateId } from '../features/tasks/helpers/generate-id'
+import { TaskData, TaskStatus } from '../features/tasks/helpers/task-data'
 import { Button } from './button'
 import { Input } from './input'
 import { InputSelect } from './input-select'
@@ -11,10 +13,19 @@ import { InputSelect } from './input-select'
 type Props = {
   isOpen: boolean
   handleCancelClick: () => void
+  handleSubmit: (task: TaskData) => void
 }
 
-export function AddTaskDialog({ isOpen, handleCancelClick }: Props) {
+export function AddTaskDialog({
+  isOpen,
+  handleCancelClick,
+  handleSubmit,
+}: Props) {
   const nodeRef = useRef(null)
+
+  const [title, setTitle] = useState('')
+  const [period, setPeriod] = useState<TaskStatus | string>('')
+  const [description, setDescription] = useState('')
 
   return (
     <CSSTransition
@@ -43,20 +54,44 @@ export function AddTaskDialog({ isOpen, handleCancelClick }: Props) {
                   placeholder="Título da tarefa"
                   label="Título"
                   id="title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
-                <InputSelect label="Horário" id="period" />
+
+                <InputSelect
+                  label="Horário"
+                  id="period"
+                  value={period}
+                  onChange={(e) => setPeriod(e.target.value)}
+                />
+
                 <Input
                   placeholder="Descreva a tarefa"
                   label="Descrição"
                   id="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
 
                 <div className="flex gap-3">
                   <Button variant="secondary" onClick={handleCancelClick}>
-                    {' '}
-                    Cancelar{' '}
+                    Cancelar
                   </Button>
-                  <Button variant="primary"> Salvas </Button>
+
+                  <Button
+                    variant="primary"
+                    onClick={() =>
+                      handleSubmit({
+                        id: generateId(),
+                        title,
+                        description,
+                        time: period,
+                        status: TaskStatus.NOT_STARTED,
+                      })
+                    }
+                  >
+                    Salvar
+                  </Button>
                 </div>
               </div>
             </div>
