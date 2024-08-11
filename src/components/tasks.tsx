@@ -54,15 +54,6 @@ export function Tasks() {
   }
 
   async function handleCreateTaksClick(task: TaskData) {
-    const response = await fetch('http://localhost:3000/tasks', {
-      method: 'POST',
-      body: JSON.stringify(task),
-    })
-
-    if (!response.ok) {
-      return toast.error('Erro ao adicinar tarefa. Por favor, tente novamente!')
-    }
-
     setTasks((prevState) => [...prevState, task])
     setAddTaskDialogIsOpen(false)
   }
@@ -85,9 +76,7 @@ export function Tasks() {
       <div className="flex justify-between">
         <div className="flex flex-col gap-1">
           <p className="text-xs font-semibold text-primary">Minhas Tarefas</p>
-          <h2 className="text-xl font-semibold text-darkBlue">
-            Minhas Tarefas
-          </h2>
+          <h2 className="text-xl font-semibold text-darkBlue">Minhas Tarefas</h2>
         </div>
 
         <div className="flex h-full items-end gap-3">

@@ -1,8 +1,10 @@
 import './add-task-dialog.css'
 
+import { Loader2 } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { CSSTransition } from 'react-transition-group'
+import { toast } from 'sonner'
 import { v4 as uuidv4 } from 'uuid'
 
 import { TaskData, TaskStatus } from '../features/tasks/helpers/task-data'
@@ -21,13 +23,11 @@ type Props = {
   handleSubmit: (task: TaskData) => void
 }
 
-export function AddTaskDialog({
-  isOpen,
-  handleCancelClick,
-  handleSubmit,
-}: Props) {
+export function AddTaskDialog({ isOpen, handleCancelClick, handleSubmit }: Props) {
   const [period, setPeriod] = useState('morning')
   const [erros, setErrors] = useState<ErrosData[]>([])
+
+  const [addTaskIsLoading, setAddTaskIsLoading] = useState(false)
 
   const nodeRef = useRef(null)
 
@@ -35,11 +35,10 @@ export function AddTaskDialog({
   const descriptionRef = useRef<HTMLInputElement>(null)
 
   const titleError = erros.find((error) => error.inputName === 'title')
-  const descriptionError = erros.find(
-    (error) => error.inputName === 'description'
-  )
+  const descriptionError = erros.find((error) => error.inputName === 'description')
 
-  function handleSaveButtonClick() {
+  async function handleSaveButtonClick() {
+    setAddTaskIsLoading(true)
     const newErros = []
 
     const title = titleRef.current?.value
@@ -69,16 +68,30 @@ export function AddTaskDialog({
     setErrors(newErros)
 
     if (newErros.length > 0 || !title || !description) {
+      setAddTaskIsLoading(false)
       return
     }
 
-    handleSubmit({
+    const task = {
       id: uuidv4(),
       title,
       description,
       time: period,
       status: TaskStatus.NOT_STARTED,
+    }
+
+    const response = await fetch('http://localhost:3000/tasks', {
+      method: 'POST',
+      body: JSON.stringify(task),
     })
+
+    if (!response.ok) {
+      setAddTaskIsLoading(false)
+      return toast.error('Erro ao adicinar tarefa. Por favor, tente novamente!')
+    }
+
+    handleSubmit(task)
+    setAddTaskIsLoading(false)
   }
 
   return (
@@ -96,12 +109,8 @@ export function AddTaskDialog({
             ref={nodeRef}
           >
             <div className="flex w-full max-w-[340px] flex-col items-center rounded-xl bg-white p-5 shadow">
-              <h1 className="text-xl font-semibold text-darkBlue">
-                Nova Tarefa
-              </h1>
-              <p className="text-sm text-textGray">
-                Insira as informações abaixo
-              </p>
+              <h1 className="text-xl font-semibold text-darkBlue">Nova Tarefa</h1>
+              <p className="text-sm text-textGray">Insira as informações abaixo</p>
 
               <div className="mt-4 w-full space-y-4">
                 <Input
@@ -132,8 +141,12 @@ export function AddTaskDialog({
                     Cancelar
                   </Button>
 
-                  <Button variant="primary" onClick={handleSaveButtonClick}>
-                    Salvar
+                  <Button
+                    variant="primary"
+                    onClick={handleSaveButtonClick}
+                    disabled={addTaskIsLoading}
+                  >
+                    {addTaskIsLoading ? <Loader2 className="animate-spin" /> : 'Salvar'}
                   </Button>
                 </div>
               </div>
