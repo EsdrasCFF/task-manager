@@ -20,7 +20,9 @@ export default {
         gray100: "#ECECEC",
         darkYellow: "#FFAA04",
         lightYellow: "#FFEDCB",
-        yellow: "#C17F1C"
+        yellow: "#C17F1C",
+        backgroud: "#F8F8F8",
+        danger: "#EF4444"
       }
     },
   },
