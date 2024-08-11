@@ -44,14 +44,6 @@ export function Tasks() {
   }
 
   async function handleTaksDeleteClick(taskId: string) {
-    const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
-      method: 'DELETE',
-    })
-
-    if (!response.ok) {
-      return toast.error('Erro ao tentar deletar tarega! Tente novamente.')
-    }
-
     const newTaks = tasks.filter((task) => task.id !== taskId)
     setTasks(newTaks)
     toast.success('Tarefa deletada com sucesso!')

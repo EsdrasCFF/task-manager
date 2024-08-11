@@ -1,4 +1,13 @@
-import { Check, ExternalLink, LoaderCircle, Trash2, X } from 'lucide-react'
+import {
+  Check,
+  ExternalLink,
+  Loader2,
+  LoaderCircle,
+  Trash2,
+  X,
+} from 'lucide-react'
+import { useState } from 'react'
+import { toast } from 'sonner'
 import { tv } from 'tailwind-variants'
 
 import { TaskData } from '../features/tasks/helpers/task-data'
@@ -41,6 +50,24 @@ export function TaskItem({
     },
   })
 
+  const [deleteTaskIsLoading, setDeleteTaksIsLoading] = useState(false)
+
+  async function handleDeleteButtonClick() {
+    setDeleteTaksIsLoading(true)
+
+    const response = await fetch(`http://localhost:3000/tasks/${task.id}`, {
+      method: 'DELETE',
+    })
+
+    if (!response.ok) {
+      return toast.error('Erro ao tentar deletar tarega! Tente novamente.')
+    }
+
+    handleDeleteClick(task.id)
+
+    setDeleteTaksIsLoading(false)
+  }
+
   return (
     <div className={taksItem({ status })}>
       <div className="flex items-center gap-3">
@@ -61,11 +88,16 @@ export function TaskItem({
       </div>
 
       <div className="flex gap-1 text-textGray transition-colors">
-        <Trash2
-          size={18}
-          onClick={() => handleDeleteClick(task.id)}
-          className="hover:cursor-pointer hover:text-gray-500"
-        />
+        {!deleteTaskIsLoading ? (
+          <Trash2
+            size={18}
+            onClick={handleDeleteButtonClick}
+            className="hover:cursor-pointer hover:text-gray-500"
+          />
+        ) : (
+          <Loader2 size={18} className="animate-spin" />
+        )}
+
         <ExternalLink size={18} />
       </div>
     </div>

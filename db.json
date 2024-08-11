@@ -1,27 +1,6 @@
 {
   "tasks": [
     {
-      "id": "1",
-      "title": "Fazer Compras",
-      "description": "Comprar os ingredientes para o jantas",
-      "time": "afternoon",
-      "status": "done"
-    },
-    {
-      "id": "2",
-      "title": "Aula de Ingles",
-      "description": "Finalizar aula de inglês",
-      "time": "morning",
-      "status": "in_progress"
-    },
-    {
-      "id": "4",
-      "title": "Aula de Ingles",
-      "description": "Finalizar aula de inglês",
-      "time": "afternoon",
-      "status": "done"
-    },
-    {
       "id": "5",
       "title": "Devocinal",
       "description": "Fazer devocional diario",
@@ -36,10 +15,45 @@
       "status": "not_started"
     },
     {
-      "id": "1610eac7-23a0-47c1-b9ec-7705c62a4cbc",
-      "title": "Camping in the Woods",
-      "description": "My friend and I will go camping in the woods",
+      "id": "8a872c47-14f2-4d32-8a7d-c0c3d1aaa1e2",
+      "title": "Devocional",
+      "description": "Fazer devocional a noite",
+      "time": "evening",
+      "status": "not_started"
+    },
+    {
+      "id": "0686ba35-7660-484a-8be5-a16aedb73e86",
+      "title": "Learn English",
+      "description": "I love learn english with you",
       "time": "afternoon",
+      "status": "not_started"
+    },
+    {
+      "id": "5767164f-499a-4b3e-b598-10250bc309fd",
+      "title": "Review Application",
+      "description": "Review application code",
+      "time": "afternoon",
+      "status": "not_started"
+    },
+    {
+      "id": "a9567e9f-9839-4c9d-af96-713122dbc89b",
+      "title": "Create unit test",
+      "description": "Write unit test",
+      "time": "morning",
+      "status": "not_started"
+    },
+    {
+      "id": "f5d49b76-3af7-4383-ad02-35ff478ffd28",
+      "title": "document API",
+      "description": "Document created API",
+      "time": "morning",
+      "status": "not_started"
+    },
+    {
+      "id": "6bc3b495-30ad-498b-8f9b-a21323094fe0",
+      "title": "Research and implement",
+      "description": "Research and implement a new library of react animation",
+      "time": "evening",
       "status": "not_started"
     }
   ]
