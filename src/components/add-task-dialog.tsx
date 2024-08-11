@@ -146,7 +146,8 @@ export function AddTaskDialog({ isOpen, handleCancelClick, handleSubmit }: Props
                     onClick={handleSaveButtonClick}
                     disabled={addTaskIsLoading}
                   >
-                    {addTaskIsLoading ? <Loader2 className="animate-spin" /> : 'Salvar'}
+                    Salvar
+                    {addTaskIsLoading && <Loader2 className="ml-1 animate-spin" size={16} />}
                   </Button>
                 </div>
               </div>

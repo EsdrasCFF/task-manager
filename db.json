@@ -8,13 +8,6 @@
       "status": "in_progress"
     },
     {
-      "id": "f8b943a3-4476-44e7-8389-f945b1cbe64e",
-      "title": "English Class",
-      "description": "Go to english class",
-      "time": "morning",
-      "status": "not_started"
-    },
-    {
       "id": "8a872c47-14f2-4d32-8a7d-c0c3d1aaa1e2",
       "title": "Devocional",
       "description": "Fazer devocional a noite",
@@ -43,13 +36,6 @@
       "status": "not_started"
     },
     {
-      "id": "f5d49b76-3af7-4383-ad02-35ff478ffd28",
-      "title": "document API",
-      "description": "Document created API",
-      "time": "morning",
-      "status": "not_started"
-    },
-    {
       "id": "6bc3b495-30ad-498b-8f9b-a21323094fe0",
       "title": "Research and implement",
       "description": "Research and implement a new library of react animation",
@@ -61,6 +47,20 @@
       "title": "Setting Papiline",
       "description": "Conigurar papiline",
       "time": "afternoon",
+      "status": "not_started"
+    },
+    {
+      "id": "ac130906-7813-4dfb-a937-1f9bc4190106",
+      "title": "Implove Loading",
+      "description": "Improve loading",
+      "time": "afternoon",
+      "status": "not_started"
+    },
+    {
+      "id": "d8deb06f-d934-4c0c-86ce-522ca3269741",
+      "title": "New Task",
+      "description": "New Task",
+      "time": "morning",
       "status": "not_started"
     }
   ]
