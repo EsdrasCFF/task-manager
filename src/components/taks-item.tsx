@@ -1,5 +1,5 @@
 import { Check, ExternalLink, LoaderCircle, Trash2, X } from 'lucide-react'
-import { twMerge } from 'tailwind-merge'
+import { tv } from 'tailwind-variants'
 
 import { TaskData } from '../features/tasks/helpers/task-data'
 
@@ -14,23 +14,37 @@ export function TaskItem({
   handleButtonClick,
   handleDeleteClick,
 }: Props) {
+  const status = task.status
+
+  const taksItem = tv({
+    base: 'flex w-full items-center justify-between rounded-lg p-2 transition',
+    variants: {
+      status: {
+        done: 'bg-lightBlue text-primary',
+        in_progress: 'bg-lightYellow text-yellow',
+        not_started: 'bg-lightGray text-gray-600',
+      },
+    },
+    defaultVariants: {
+      status: 'not_started',
+    },
+  })
+
+  const taskButton = tv({
+    base: 'flex size-6 items-center justify-center rounded-md text-white',
+    variants: {
+      status: {
+        done: 'bg-primary',
+        in_progress: 'bg-darkYellow',
+        not_started: 'bg-gray-400',
+      },
+    },
+  })
   return (
-    <div
-      className={twMerge(
-        'flex w-full items-center justify-between rounded-lg p-2 transition',
-        task.status === 'done' && 'bg-lightBlue text-primary',
-        task.status === 'in_progress' && 'bg-lightYellow text-yellow',
-        task.status === 'not_started' && 'bg-lightGray text-gray-600'
-      )}
-    >
+    <div className={taksItem({ status })}>
       <div className="flex items-center gap-3">
         <button
-          className={twMerge(
-            'flex size-6 items-center justify-center rounded-md text-white',
-            task.status === 'done' && 'bg-primary',
-            task.status === 'in_progress' && 'bg-darkYellow',
-            task.status === 'not_started' && 'bg-gray-400'
-          )}
+          className={taskButton({ status })}
           onClick={() => handleButtonClick(task.id)}
         >
           {task.status === 'done' && <Check size={16} strokeWidth={3} />}
