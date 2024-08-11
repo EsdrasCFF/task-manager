@@ -17,15 +17,12 @@ export default tseslint.config({
   plugins: {
     'react-hooks': reactHooks,
     'react-refresh': reactRefresh,
-    'simple-import-sort': simpleImportSort
+    'simple-import-sort': simpleImportSort,
   },
   rules: {
     ...reactHooks.configs.recommended.rules,
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error"
+    'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
   },
 })

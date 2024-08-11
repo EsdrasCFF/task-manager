@@ -1,11 +1,4 @@
-import {
-  Check,
-  ExternalLink,
-  Loader2,
-  LoaderCircle,
-  Trash2,
-  X,
-} from 'lucide-react'
+import { Check, ExternalLink, Loader2, LoaderCircle, Trash2, X } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { tv } from 'tailwind-variants'
@@ -18,11 +11,7 @@ interface Props {
   handleDeleteClick: (taskId: string) => void
 }
 
-export function TaskItem({
-  task,
-  handleButtonClick,
-  handleDeleteClick,
-}: Props) {
+export function TaskItem({ task, handleButtonClick, handleDeleteClick }: Props) {
   const status = task.status
 
   const taksItem = tv({
@@ -71,10 +60,7 @@ export function TaskItem({
   return (
     <div className={taksItem({ status })}>
       <div className="flex items-center gap-3">
-        <button
-          className={taskButton({ status })}
-          onClick={() => handleButtonClick(task.id)}
-        >
+        <button className={taskButton({ status })} onClick={() => handleButtonClick(task.id)}>
           {task.status === 'done' && <Check size={16} strokeWidth={3} />}
           {task.status === 'in_progress' && (
             <LoaderCircle size={16} strokeWidth={3} className="animate-spin" />

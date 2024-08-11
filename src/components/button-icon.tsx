@@ -8,19 +8,12 @@ interface ButtonProps extends ComponentProps<'button'> {
   variant?: 'primary' | 'outline'
 }
 
-export function ButtonWithIcon({
-  icon: Icon,
-  title,
-  variant = 'primary',
-  ...props
-}: ButtonProps) {
+export function ButtonWithIcon({ icon: Icon, title, variant = 'primary', ...props }: ButtonProps) {
   return (
     <button
       className={twMerge(
         'flex gap-1 rounded-md px-3 py-1 text-xs font-semibold transition hover:bg-opacity-60',
-        variant == 'primary'
-          ? 'bg-primary text-white'
-          : 'text-darkGray hover:bg-gray-200/40'
+        variant == 'primary' ? 'bg-primary text-white' : 'text-darkGray hover:bg-gray-200/40'
       )}
       {...props}
     >

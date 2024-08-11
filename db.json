@@ -55,6 +55,13 @@
       "description": "Research and implement a new library of react animation",
       "time": "evening",
       "status": "not_started"
+    },
+    {
+      "id": "cec1a535-3b1b-4150-8537-8334ca575e5f",
+      "title": "Setting Papiline",
+      "description": "Conigurar papiline",
+      "time": "afternoon",
+      "status": "not_started"
     }
   ]
 }

@@ -7,11 +7,7 @@ interface Props {
   icon: LucideIcon
 }
 
-export function SidebarButton({
-  title,
-  variant = 'unselected',
-  icon: Icon,
-}: Props) {
+export function SidebarButton({ title, variant = 'unselected', icon: Icon }: Props) {
   return (
     <a
       href="#"

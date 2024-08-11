@@ -1,4 +1,4 @@
-import { ComponentProps, forwardRef,Ref } from 'react'
+import { ComponentProps, forwardRef, Ref } from 'react'
 
 interface InputProps extends ComponentProps<'input'> {
   label?: string
@@ -24,9 +24,7 @@ function Input(
         {...rest}
       />
       {errorMessage && (
-        <p className="w-full text-end text-[10px] leading-none text-red-500">
-          {errorMessage}
-        </p>
+        <p className="w-full text-end text-[10px] leading-none text-red-500">{errorMessage}</p>
       )}
     </div>
   )
