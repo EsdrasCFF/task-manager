@@ -10,6 +10,11 @@ import { Button } from './button'
 import { Input } from './input'
 import { InputSelect } from './input-select'
 
+interface ErrosData {
+  inputName: string
+  errorMessage: string
+}
+
 type Props = {
   isOpen: boolean
   handleCancelClick: () => void
@@ -24,13 +29,58 @@ export function AddTaskDialog({
   const nodeRef = useRef(null)
 
   const [title, setTitle] = useState('')
-  const [period, setPeriod] = useState<TaskStatus | string>('')
+  const [period, setPeriod] = useState('morning')
   const [description, setDescription] = useState('')
+
+  const [erros, setErrors] = useState<ErrosData[]>([])
+
+  const titleError = erros.find((error) => error.inputName === 'title')
+  const descriptionError = erros.find(
+    (error) => error.inputName === 'description'
+  )
+
+  function handleSaveButtonClick() {
+    const newErros = []
+
+    if (!title.trim()) {
+      newErros.push({
+        inputName: 'title',
+        errorMessage: 'Título é obrigatório!',
+      })
+    }
+
+    if (!period.trim()) {
+      newErros.push({
+        inputName: 'period',
+        errorMessage: 'Horário é obrigatório!',
+      })
+    }
+
+    if (!description.trim()) {
+      newErros.push({
+        inputName: 'description',
+        errorMessage: 'Descrição é obrigatório!',
+      })
+    }
+
+    setErrors(newErros)
+
+    if (newErros.length > 0) {
+      return
+    }
+
+    handleSubmit({
+      id: generateId(),
+      title,
+      description,
+      time: period,
+      status: TaskStatus.NOT_STARTED,
+    })
+  }
 
   useEffect(() => {
     if (isOpen == false) {
       setDescription('')
-      setPeriod('')
       setTitle('')
     }
   }, [isOpen])
@@ -64,6 +114,7 @@ export function AddTaskDialog({
                   id="title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
+                  errorMessage={titleError?.errorMessage}
                 />
 
                 <InputSelect
@@ -79,6 +130,7 @@ export function AddTaskDialog({
                   id="description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
+                  errorMessage={descriptionError?.errorMessage}
                 />
 
                 <div className="flex gap-3">
@@ -86,18 +138,7 @@ export function AddTaskDialog({
                     Cancelar
                   </Button>
 
-                  <Button
-                    variant="primary"
-                    onClick={() =>
-                      handleSubmit({
-                        id: generateId(),
-                        title,
-                        description,
-                        time: period,
-                        status: TaskStatus.NOT_STARTED,
-                      })
-                    }
-                  >
+                  <Button variant="primary" onClick={handleSaveButtonClick}>
                     Salvar
                   </Button>
                 </div>
