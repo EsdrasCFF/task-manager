@@ -10,9 +10,9 @@ import { v4 as uuidv4 } from 'uuid'
 import { TaskData, TaskStatus } from '../features/tasks/helpers/task-data'
 import { Button } from './button'
 import Input from './input'
-import { InputSelect } from './input-select'
+import InputSelect from './input-select'
 
-interface ErrosData {
+export interface ErrosData {
   inputName: string
   errorMessage: string
 }
@@ -24,7 +24,6 @@ type Props = {
 }
 
 export function AddTaskDialog({ isOpen, handleCancelClick, handleSubmit }: Props) {
-  const [period, setPeriod] = useState('morning')
   const [erros, setErrors] = useState<ErrosData[]>([])
 
   const [addTaskIsLoading, setAddTaskIsLoading] = useState(false)
@@ -33,6 +32,7 @@ export function AddTaskDialog({ isOpen, handleCancelClick, handleSubmit }: Props
 
   const titleRef = useRef<HTMLInputElement>(null)
   const descriptionRef = useRef<HTMLInputElement>(null)
+  const selectRef = useRef<HTMLSelectElement>(null)
 
   const titleError = erros.find((error) => error.inputName === 'title')
   const descriptionError = erros.find((error) => error.inputName === 'description')
@@ -43,6 +43,7 @@ export function AddTaskDialog({ isOpen, handleCancelClick, handleSubmit }: Props
 
     const title = titleRef.current?.value
     const description = descriptionRef.current?.value
+    const period = selectRef.current?.value
 
     if (!title?.trim()) {
       newErros.push({
@@ -51,7 +52,7 @@ export function AddTaskDialog({ isOpen, handleCancelClick, handleSubmit }: Props
       })
     }
 
-    if (!period.trim()) {
+    if (!period?.trim()) {
       newErros.push({
         inputName: 'period',
         errorMessage: 'Horário é obrigatório!',
@@ -67,7 +68,7 @@ export function AddTaskDialog({ isOpen, handleCancelClick, handleSubmit }: Props
 
     setErrors(newErros)
 
-    if (newErros.length > 0 || !title || !description) {
+    if (newErros.length > 0 || !title || !description || !period) {
       setAddTaskIsLoading(false)
       return
     }
@@ -125,9 +126,9 @@ export function AddTaskDialog({ isOpen, handleCancelClick, handleSubmit }: Props
                 <InputSelect
                   label="Horário"
                   id="period"
-                  value={period}
-                  onChange={(e) => setPeriod(e.target.value)}
+                  ref={selectRef}
                   disabled={addTaskIsLoading}
+                  defaultValue="morning"
                 />
 
                 <Input
