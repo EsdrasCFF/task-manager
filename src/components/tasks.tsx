@@ -71,7 +71,7 @@ export function Tasks() {
   }, [])
 
   return (
-    <div className="mx-9 mt-[70px] w-full">
+    <div className="mt-[70px] w-full px-[2.25rem]">
       {/* BUTTON AND TITLES */}
       <div className="flex justify-between">
         <div className="flex flex-col gap-1">
@@ -79,7 +79,7 @@ export function Tasks() {
           <h2 className="text-xl font-semibold text-darkBlue">Minhas Tarefas</h2>
         </div>
 
-        <div className="flex h-full items-end gap-3">
+        <div className="flex h-full items-end gap-3 self-end">
           <ButtonWithIcon
             title="Limpar Tarefas"
             icon={Trash2}
