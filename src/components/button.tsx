@@ -2,7 +2,7 @@ import { ComponentProps } from 'react'
 import { tv } from 'tailwind-variants'
 
 interface ButtonProps extends ComponentProps<'button'> {
-  variant?: 'primary' | 'secondary'
+  variant?: 'primary' | 'secondary' | 'outline'
   className?: string
 }
 
@@ -13,6 +13,7 @@ export function Button({ variant, className, ...rest }: ButtonProps) {
       variant: {
         primary: 'bg-primary text-white',
         secondary: 'bg-gray-300/30 text-darkBlue hover:bg-gray-300/50',
+        outline: 'border border-gray-400 bg-transparent hover:bg-gray-300/20',
       },
     },
     defaultVariants: {

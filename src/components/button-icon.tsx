@@ -11,7 +11,7 @@ interface ButtonProps extends ComponentProps<'button'> {
 
 export function ButtonWithIcon({ icon: Icon, title, variant, className, ...props }: ButtonProps) {
   const button = tv({
-    base: `flex gap-1 rounded-md px-3 py-1 text-xs font-semibold transition hover:bg-opacity-60 ${className}`,
+    base: `flex gap-1 rounded-md px-3 py-1 text-xs font-semibold transition hover:bg-opacity-60 disabled:cursor-not-allowed ${className}`,
     variants: {
       variant: {
         primary: 'bg-primary text-white',
