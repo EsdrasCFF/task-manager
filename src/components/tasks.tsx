@@ -98,6 +98,10 @@ export function Tasks() {
       <div className="mt-6 space-y-3 rounded-lg bg-white p-6">
         <div className="space-y-3">
           <TaskSeparator title="Manhã" icon={Sun} />
+          {morningTasks.length < 1 && (
+            <p className="text-sm text-gray-400">Nenhuma tarefa para o período da manhã!</p>
+          )}
+
           {morningTasks.map((task) => (
             <TaskItem
               key={task.id}
@@ -110,6 +114,10 @@ export function Tasks() {
 
         <div className="space-y-3">
           <TaskSeparator title="Tarde" icon={CloudSun} />
+          {afternoonTasks.length < 1 && (
+            <p className="text-sm text-gray-400">Nenhuma tarefa para o período da tarde</p>
+          )}
+
           {afternoonTasks.map((task) => (
             <TaskItem
               key={task.id}
@@ -122,6 +130,10 @@ export function Tasks() {
 
         <div className="space-y-3">
           <TaskSeparator title="Noite" icon={Moon} />
+          {eveningTasks.length < 1 && (
+            <p className="text-sm text-gray-400">Nenhuma tarefa para o período da tarde</p>
+          )}
+
           {eveningTasks.map((task) => (
             <TaskItem
               key={task.id}
