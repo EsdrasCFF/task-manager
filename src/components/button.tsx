@@ -3,15 +3,16 @@ import { tv } from 'tailwind-variants'
 
 interface ButtonProps extends ComponentProps<'button'> {
   variant?: 'primary' | 'secondary'
+  className?: string
 }
 
-export function Button({ variant = 'primary', ...rest }: ButtonProps) {
+export function Button({ variant, className, ...rest }: ButtonProps) {
   const button = tv({
-    base: 'flex w-full items-center justify-center rounded-lg p-2 text-sm font-semibold hover:bg-opacity-80 disabled:bg-opacity-50',
+    base: `flex w-full items-center justify-center rounded-lg px-3 py-2 text-sm font-semibold transition hover:bg-opacity-80 disabled:bg-opacity-50 ${className}`,
     variants: {
       variant: {
         primary: 'bg-primary text-white',
-        secondary: 'bg-lightGray text-darkBlue',
+        secondary: 'bg-lightGray text-darkBlue hover:bg-gray-300/30',
       },
     },
     defaultVariants: {
