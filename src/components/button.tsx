@@ -12,7 +12,7 @@ export function Button({ variant, className, ...rest }: ButtonProps) {
     variants: {
       variant: {
         primary: 'bg-primary text-white',
-        secondary: 'bg-lightGray text-darkBlue hover:bg-gray-300/30',
+        secondary: 'bg-gray-300/30 text-darkBlue hover:bg-gray-300/50',
       },
     },
     defaultVariants: {
