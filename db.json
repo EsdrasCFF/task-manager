@@ -16,15 +16,15 @@
     },
     {
       "id": "5767164f-499a-4b3e-b598-10250bc309fd",
-      "title": "Review Application",
-      "description": "Review application code",
-      "time": "afternoon",
+      "title": "Nova Aplicação",
+      "description": "Nova Aplicação",
+      "time": "evening",
       "status": "not_started"
     },
     {
       "id": "a9567e9f-9839-4c9d-af96-713122dbc89b",
-      "title": "Create unit test",
-      "description": "Write unit test",
+      "title": "Create Unit Test",
+      "description": "Create Unit Test",
       "time": "morning",
       "status": "not_started"
     },
@@ -37,9 +37,9 @@
     },
     {
       "id": "cec1a535-3b1b-4150-8537-8334ca575e5f",
-      "title": "Setting Papiline",
-      "description": "Setting Papiline",
-      "time": "morning",
+      "title": "Report Expense and Supplier",
+      "description": "Report Expense and Supplier",
+      "time": "afternoon",
       "status": "not_started"
     },
     {
@@ -53,7 +53,7 @@
       "id": "9520aa29-d9f7-44cb-afd3-997a8323f8ff",
       "title": "Reunião com a TOTVS",
       "description": "Reunião com a TOTVS",
-      "time": "morning",
+      "time": "afternoon",
       "status": "not_started"
     }
   ]

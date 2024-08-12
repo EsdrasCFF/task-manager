@@ -81,10 +81,16 @@ export default function TaskDetailsPage() {
 
     if (!response.ok) {
       setSaveIsLoading(false)
+      toast.error('Erro ao atualizar tarefa!')
+      return
     }
 
+    const data = await response.json()
+
+    setTask(data)
     toast.success('Tarefa atualizada com sucesso!')
     setSaveIsLoading(false)
+    return
   }
 
   useEffect(() => {
