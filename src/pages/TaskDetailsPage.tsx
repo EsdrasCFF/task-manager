@@ -10,6 +10,7 @@ import Input from '../components/input'
 import InputSelect from '../components/input-select'
 import { Sidebar } from '../components/sidebar'
 import { TaskData } from '../features/tasks/helpers/task-data'
+import { useConfirm } from '../hooks/use-confirm'
 
 export default function TaskDetailsPage() {
   const { taskId } = useParams()
@@ -18,6 +19,12 @@ export default function TaskDetailsPage() {
   const [erros, setErrors] = useState<ErrosData[]>([])
 
   const [saveIsLoading, setSaveIsLoading] = useState(false)
+  const [deleteIsLoading, setDeleteIsLoading] = useState(false)
+
+  const [ConfirmationDialog, confirm] = useConfirm(
+    'Gostaria de deletar esta tarefa',
+    'Você tem certeza?'
+  )
 
   const navigate = useNavigate()
 
@@ -93,6 +100,28 @@ export default function TaskDetailsPage() {
     return
   }
 
+  async function handleDeleteClick() {
+    setDeleteIsLoading(true)
+    const ok = await confirm()
+
+    console.log({ ok })
+    if (!ok) {
+      setDeleteIsLoading(false)
+      return
+    }
+
+    const response = await fetch(`http://localhost:3000/tasks/${taskId}`, { method: 'DELETE' })
+
+    if (!response.ok) {
+      toast.error('Ocorreu um erro ao deletar essa tarefa! Tente novamente.')
+      setDeleteIsLoading(false)
+      return
+    }
+
+    toast.success('Tarefa deletada com sucesso!')
+    handleBackClick()
+  }
+
   useEffect(() => {
     const fetchTaks = async () => {
       const response = await fetch(`http://localhost:3000/tasks/${taskId}`)
@@ -137,6 +166,8 @@ export default function TaskDetailsPage() {
             title="Deletar Tarefa"
             className="self-end"
             variant="destructive"
+            onClick={handleDeleteClick}
+            disabled={deleteIsLoading}
           />
         </div>
 
@@ -168,6 +199,8 @@ export default function TaskDetailsPage() {
           </Button>
         </div>
       </main>
+
+      <ConfirmationDialog />
     </div>
   )
 }
