@@ -38,8 +38,8 @@
     {
       "id": "cec1a535-3b1b-4150-8537-8334ca575e5f",
       "title": "Setting Papiline",
-      "description": "Conigurar papiline",
-      "time": "afternoon",
+      "description": "Setting Papiline",
+      "time": "morning",
       "status": "not_started"
     },
     {
@@ -47,6 +47,13 @@
       "title": "Implove Loading",
       "description": "Improve loading",
       "time": "afternoon",
+      "status": "not_started"
+    },
+    {
+      "id": "9520aa29-d9f7-44cb-afd3-997a8323f8ff",
+      "title": "Reunião com a TOTVS",
+      "description": "Reunião com a TOTVS",
+      "time": "morning",
       "status": "not_started"
     }
   ]
