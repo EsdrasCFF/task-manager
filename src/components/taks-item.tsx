@@ -1,7 +1,6 @@
 import { Check, ExternalLink, Loader2, LoaderCircle, Trash2, X } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { toast } from 'sonner'
 import { tv } from 'tailwind-variants'
 
 import { TaskData } from '../features/tasks/helpers/task-data'
@@ -9,10 +8,10 @@ import { TaskData } from '../features/tasks/helpers/task-data'
 interface Props {
   task: TaskData
   handleButtonClick: (taskId: string) => void
-  handleDeleteClick: (taskId: string) => void
+  onDeleteClick: (taskId: string) => void
 }
 
-export function TaskItem({ task, handleButtonClick, handleDeleteClick }: Props) {
+export function TaskItem({ task, handleButtonClick, onDeleteClick }: Props) {
   const status = task.status
 
   const taksItem = tv({
@@ -45,15 +44,7 @@ export function TaskItem({ task, handleButtonClick, handleDeleteClick }: Props) 
   async function handleDeleteButtonClick() {
     setDeleteTaksIsLoading(true)
 
-    const response = await fetch(`http://localhost:3000/tasks/${task.id}`, {
-      method: 'DELETE',
-    })
-
-    if (!response.ok) {
-      return toast.error('Erro ao tentar deletar tarega! Tente novamente.')
-    }
-
-    handleDeleteClick(task.id)
+    onDeleteClick(task.id)
 
     setDeleteTaksIsLoading(false)
   }
