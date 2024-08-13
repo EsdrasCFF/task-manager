@@ -29,12 +29,15 @@ export function useCreateTaks() {
 
       return data
     },
-    onSuccess: (json) => {
-      queryClient.setQueryData(['tasks'], (prevTasks: TaskData[]) => [...prevTasks, json])
+    onSuccess: () => {
       toast.success('Nova Tarefa criada com sucesse!')
     },
     onError: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
       toast.error('Erro ao criar nova tarefa. Tente novamente!')
+    },
+    onMutate: (json) => {
+      queryClient.setQueryData(['tasks'], (prevTasks: TaskData[]) => [...prevTasks, json])
     },
   })
 
