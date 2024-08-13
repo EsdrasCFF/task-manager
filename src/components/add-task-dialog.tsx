@@ -6,22 +6,21 @@ import { useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import { CSSTransition } from 'react-transition-group'
-import { toast } from 'sonner'
 import { v4 as uuidv4 } from 'uuid'
 
-import { TaskData, TaskStatus } from '../features/tasks/helpers/task-data'
-import { taksDetailsSchema,TaskDetailsFormData } from '../pages/TaskDetailsPage'
+import { useCreateTaks } from '../features/tasks/api/use-create-task'
+import { TaskStatus } from '../features/tasks/helpers/task-data'
+import { taksDetailsSchema, TaskDetailsFormData } from '../pages/TaskDetailsPage'
 import { Button } from './button'
 import Input from './input'
 import InputSelect from './input-select'
 
 type Props = {
   isOpen: boolean
-  handleCancelClick: () => void
-  onSubmit: (task: TaskData) => void
+  onCancelClick: () => void
 }
 
-export function AddTaskDialog({ isOpen, handleCancelClick, onSubmit }: Props) {
+export function AddTaskDialog({ isOpen, onCancelClick }: Props) {
   const {
     register,
     handleSubmit,
@@ -36,11 +35,14 @@ export function AddTaskDialog({ isOpen, handleCancelClick, onSubmit }: Props) {
 
   const nodeRef = useRef(null)
 
+  const createTaskMutation = useCreateTaks()
+  const isPending = createTaskMutation.isPending
+
   function handleCancelButtonClick() {
     setValue('title', '')
     setValue('description', '')
 
-    handleCancelClick()
+    onCancelClick()
   }
 
   async function handleSaveButtonClick(data: TaskDetailsFormData) {
@@ -52,18 +54,11 @@ export function AddTaskDialog({ isOpen, handleCancelClick, onSubmit }: Props) {
       status: TaskStatus.NOT_STARTED,
     }
 
-    const response = await fetch('http://localhost:3000/tasks', {
-      method: 'POST',
-      body: JSON.stringify(task),
-    })
+    createTaskMutation.mutate(task)
 
-    if (!response.ok) {
-      return toast.error('Erro ao adicinar tarefa. Por favor, tente novamente!')
-    }
-
+    onCancelClick()
     setValue('title', '')
     setValue('description', '')
-    onSubmit(task)
   }
 
   return (
@@ -92,28 +87,38 @@ export function AddTaskDialog({ isOpen, handleCancelClick, onSubmit }: Props) {
                   placeholder="Título da tarefa"
                   label="Título"
                   errorMessage={errors.title?.message}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || isPending}
                   {...register('title')}
                 />
 
-                <InputSelect label="Horário" disabled={isSubmitting} {...register('period')} />
+                <InputSelect
+                  label="Horário"
+                  disabled={isSubmitting || isPending}
+                  {...register('period')}
+                />
 
                 <Input
                   placeholder="Descreva a tarefa"
                   label="Descrição"
                   errorMessage={errors.description?.message}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || isPending}
                   {...register('description')}
                 />
 
                 <div className="flex gap-3">
-                  <Button variant="secondary" onClick={handleCancelButtonClick} type="button">
+                  <Button
+                    variant="secondary"
+                    onClick={handleCancelButtonClick}
+                    type="button"
+                    disabled={isPending}
+                  >
                     Cancelar
                   </Button>
 
-                  <Button variant="primary" disabled={isSubmitting} type="submit">
+                  <Button variant="primary" disabled={isSubmitting || isPending} type="submit">
                     Salvar
-                    {isSubmitting && <Loader2 className="ml-1 animate-spin" size={16} />}
+                    {isSubmitting ||
+                      (isPending && <Loader2 className="ml-1 animate-spin" size={16} />)}
                   </Button>
                 </div>
               </form>

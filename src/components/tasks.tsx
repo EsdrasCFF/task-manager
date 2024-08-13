@@ -1,74 +1,58 @@
 import { CloudSun, Moon, Plus, Sun, Trash2 } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
+import { useState } from 'react'
 
-import { TaskData, TaskStatus } from '../features/tasks/helpers/task-data'
+import { useDeleteTaks } from '../features/tasks/api/use-delete-task'
+import { useGetTasks } from '../features/tasks/api/use-get-tasks'
+import { useUpdateStatusTask } from '../features/tasks/api/use-update-status'
+import { TaskStatus } from '../features/tasks/helpers/task-data'
 import { AddTaskDialog } from './add-task-dialog'
 import { ButtonWithIcon } from './button-icon'
 import { TaskItem } from './taks-item'
 import { TaskSeparator } from './task-separator'
 
 export function Tasks() {
-  const [tasks, setTasks] = useState<TaskData[]>([])
   const [addTaskDialogIsOpen, setAddTaskDialogIsOpen] = useState(false)
 
-  const morningTasks = tasks.filter((task) => task.time == 'morning')
-  const afternoonTasks = tasks.filter((task) => task.time == 'afternoon')
-  const eveningTasks = tasks.filter((task) => task.time == 'evening')
+  const updateTaskStatusMutate = useUpdateStatusTask()
+  const deleteTaskMutate = useDeleteTaks()
 
-  function handleTaskItemButtonClick(taskId: string) {
-    const newTaks = tasks.map((task) => {
+  const { data: tasks } = useGetTasks()
+
+  const morningTasks = tasks?.filter((task) => task.time == 'morning')
+  const afternoonTasks = tasks?.filter((task) => task.time == 'afternoon')
+  const eveningTasks = tasks?.filter((task) => task.time == 'evening')
+
+  function handleCheckBoxClick(taskId: string) {
+    let newStatus: string = ''
+
+    tasks?.map((task) => {
       if (task.id !== taskId) {
         return task
       }
 
       if (task.status === 'done') {
-        toast.warning('Tarefa não realizada')
-        return { ...task, status: TaskStatus.NOT_STARTED }
+        newStatus = TaskStatus.NOT_STARTED
       }
 
       if (task.status === 'in_progress') {
-        toast.success('Tarefa concluída com sucesso!')
-        return { ...task, status: TaskStatus.DONE }
+        newStatus = TaskStatus.DONE
       }
 
       if (task.status === 'not_started') {
-        toast.success('Tarefa iniciada com sucesso!')
-        return { ...task, status: TaskStatus.IN_PROGRESS }
+        newStatus = TaskStatus.IN_PROGRESS
       }
-
-      return task
     })
 
-    setTasks(newTaks)
+    updateTaskStatusMutate.mutate({ status: newStatus, taskId })
   }
 
-  async function handleTaksDeleteClick(taskId: string) {
-    const newTaks = tasks.filter((task) => task.id !== taskId)
-    setTasks(newTaks)
-    toast.success('Tarefa deletada com sucesso!')
+  async function handleDeleteTaskItemClick(taskId: string) {
+    deleteTaskMutate.mutate({ taskId })
   }
 
   function handleCloseDialogClick() {
     setAddTaskDialogIsOpen(false)
   }
-
-  async function handleCreateTaksClick(task: TaskData) {
-    setTasks((prevState) => [...prevState, task])
-    setAddTaskDialogIsOpen(false)
-  }
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      const response = await fetch('http://localhost:3000/tasks')
-
-      const data: TaskData[] = await response.json()
-
-      setTasks(data)
-    }
-
-    fetchTasks()
-  }, [])
 
   return (
     <div className="mt-[70px] w-full px-[2.25rem]">
@@ -98,58 +82,57 @@ export function Tasks() {
       <div className="mt-6 space-y-3 rounded-lg bg-white p-6">
         <div className="space-y-3">
           <TaskSeparator title="Manhã" icon={Sun} />
-          {morningTasks.length < 1 && (
-            <p className="text-sm text-gray-400">Nenhuma tarefa para o período da manhã!</p>
-          )}
+          {!morningTasks ||
+            (morningTasks?.length < 1 && (
+              <p className="text-sm text-gray-400">Nenhuma tarefa para o período da manhã!</p>
+            ))}
 
-          {morningTasks.map((task) => (
+          {morningTasks?.map((task) => (
             <TaskItem
               key={task.id}
               task={task}
-              handleButtonClick={handleTaskItemButtonClick}
-              handleDeleteClick={handleTaksDeleteClick}
+              handleButtonClick={handleCheckBoxClick}
+              onDeleteClick={handleDeleteTaskItemClick}
             />
           ))}
         </div>
 
         <div className="space-y-3">
           <TaskSeparator title="Tarde" icon={CloudSun} />
-          {afternoonTasks.length < 1 && (
-            <p className="text-sm text-gray-400">Nenhuma tarefa para o período da tarde</p>
-          )}
+          {!afternoonTasks ||
+            (afternoonTasks.length < 1 && (
+              <p className="text-sm text-gray-400">Nenhuma tarefa para o período da tarde</p>
+            ))}
 
-          {afternoonTasks.map((task) => (
+          {afternoonTasks?.map((task) => (
             <TaskItem
               key={task.id}
               task={task}
-              handleButtonClick={handleTaskItemButtonClick}
-              handleDeleteClick={handleTaksDeleteClick}
+              handleButtonClick={handleCheckBoxClick}
+              onDeleteClick={handleDeleteTaskItemClick}
             />
           ))}
         </div>
 
         <div className="space-y-3">
           <TaskSeparator title="Noite" icon={Moon} />
-          {eveningTasks.length < 1 && (
-            <p className="text-sm text-gray-400">Nenhuma tarefa para o período da tarde</p>
-          )}
+          {!eveningTasks ||
+            (eveningTasks.length < 1 && (
+              <p className="text-sm text-gray-400">Nenhuma tarefa para o período da tarde</p>
+            ))}
 
-          {eveningTasks.map((task) => (
+          {eveningTasks?.map((task) => (
             <TaskItem
               key={task.id}
               task={task}
-              handleButtonClick={handleTaskItemButtonClick}
-              handleDeleteClick={handleTaksDeleteClick}
+              handleButtonClick={handleCheckBoxClick}
+              onDeleteClick={handleDeleteTaskItemClick}
             />
           ))}
         </div>
       </div>
 
-      <AddTaskDialog
-        isOpen={addTaskDialogIsOpen}
-        handleCancelClick={handleCloseDialogClick}
-        onSubmit={handleCreateTaksClick}
-      />
+      <AddTaskDialog isOpen={addTaskDialogIsOpen} onCancelClick={handleCloseDialogClick} />
     </div>
   )
 }
