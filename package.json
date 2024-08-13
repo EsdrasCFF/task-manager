@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
+    "@tanstack/react-query": "^5.51.23",
     "@types/json-server": "^0.14.7",
     "@types/react-transition-group": "^4.4.11",
     "@types/uuid": "^10.0.0",
