@@ -1,9 +1,11 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowLeft, ChevronRight, Loader2, Trash2 } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
+import { z } from 'zod'
 
-import { ErrosData } from '../components/add-task-dialog'
 import { Button } from '../components/button'
 import { ButtonWithIcon } from '../components/button-icon'
 import Input from '../components/input'
@@ -12,14 +14,28 @@ import { Sidebar } from '../components/sidebar'
 import { TaskData } from '../features/tasks/helpers/task-data'
 import { useConfirm } from '../hooks/use-confirm'
 
+export const taksDetailsSchema = z.object({
+  title: z.string().min(3, { message: 'Título da tarefa é obrigatório!' }).trim(),
+  period: z.string().min(3, { message: 'Selecione um período para a sua tarefa!' }).trim(),
+  description: z.string().min(3, { message: 'Descrição da tarefa é obrigatória!' }).trim(),
+})
+
+export type TaskDetailsFormData = z.infer<typeof taksDetailsSchema>
+
 export default function TaskDetailsPage() {
   const { taskId } = useParams()
+
   const [taks, setTask] = useState<TaskData | null>(null)
-
-  const [erros, setErrors] = useState<ErrosData[]>([])
-
-  const [saveIsLoading, setSaveIsLoading] = useState(false)
   const [deleteIsLoading, setDeleteIsLoading] = useState(false)
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<TaskDetailsFormData>({
+    resolver: zodResolver(taksDetailsSchema),
+  })
 
   const [ConfirmationDialog, confirm] = useConfirm(
     'Gostaria de deletar esta tarefa',
@@ -28,57 +44,15 @@ export default function TaskDetailsPage() {
 
   const navigate = useNavigate()
 
-  const titleRef = useRef<HTMLInputElement>(null)
-  const descriptionRef = useRef<HTMLInputElement>(null)
-  const periodRef = useRef<HTMLSelectElement>(null)
-
   function handleBackClick() {
     navigate(-1)
   }
 
-  const titleError = erros.find((errorData) => errorData.inputName === 'title')
-  const descriptionError = erros.find((errorData) => errorData.inputName === 'description')
-
-  async function handleSaveClick() {
-    setSaveIsLoading(true)
-    const newErros = []
-
-    const title = titleRef.current?.value
-    const description = titleRef.current?.value
-    const period = periodRef.current?.value
-
-    if (!title?.trim()) {
-      newErros.push({
-        inputName: 'title',
-        errorMessage: 'Título é obrigatório!',
-      })
-    }
-
-    if (!period?.trim()) {
-      newErros.push({
-        inputName: 'period',
-        errorMessage: 'Horário é obrigatório!',
-      })
-    }
-
-    if (!description?.trim()) {
-      newErros.push({
-        inputName: 'description',
-        errorMessage: 'Descrição é obrigatório!',
-      })
-    }
-
-    setErrors(newErros)
-
-    if (newErros.length > 0 || !title || !description || !period) {
-      setSaveIsLoading(false)
-      return
-    }
-
+  async function handleSaveClick(data: TaskDetailsFormData) {
     const task = {
-      title,
-      description,
-      time: period,
+      title: data.title,
+      description: data.description,
+      time: data.period,
     }
 
     const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
@@ -87,16 +61,14 @@ export default function TaskDetailsPage() {
     })
 
     if (!response.ok) {
-      setSaveIsLoading(false)
       toast.error('Erro ao atualizar tarefa!')
       return
     }
 
-    const data = await response.json()
+    const updatedTask = await response.json()
 
-    setTask(data)
+    setTask(updatedTask)
     toast.success('Tarefa atualizada com sucesso!')
-    setSaveIsLoading(false)
     return
   }
 
@@ -129,10 +101,11 @@ export default function TaskDetailsPage() {
       const data: TaskData = await response.json()
 
       setTask(data)
+      reset(data)
     }
 
     fetchTaks()
-  }, [taskId])
+  }, [taskId, reset])
 
   return (
     <div className="flex">
@@ -172,32 +145,28 @@ export default function TaskDetailsPage() {
         </div>
 
         {/* MAIN */}
-        <div className="mt-6 flex w-full flex-col gap-6 rounded-lg bg-white p-6">
-          <Input
-            label="Nome"
-            defaultValue={taks?.title}
-            id="title"
-            ref={titleRef}
-            errorMessage={titleError?.errorMessage}
-          />
-          <InputSelect id="period" label="Horário" defaultValue={taks?.time} ref={periodRef} />
-          <Input
-            label="Descrição"
-            defaultValue={taks?.description}
-            id="description"
-            ref={descriptionRef}
-            errorMessage={descriptionError?.errorMessage}
-          />
-        </div>
+        <form onSubmit={handleSubmit(handleSaveClick)}>
+          <div className="mt-6 flex w-full flex-col gap-6 rounded-lg bg-white p-6">
+            <Input label="Nome" errorMessage={errors.title?.message} {...register('title')} />
 
-        <div className="mt-9 flex w-full justify-end gap-3">
-          <Button className="w-fit" variant="secondary" onClick={handleBackClick}>
-            Cancelar
-          </Button>
-          <Button className="w-fit" disabled={saveIsLoading} onClick={handleSaveClick}>
-            Salvar {saveIsLoading && <Loader2 size={16} className="ml-2" />}
-          </Button>
-        </div>
+            <InputSelect label="Horário" {...register('period')} />
+
+            <Input
+              label="Descrição"
+              errorMessage={errors.description?.message}
+              {...register('description')}
+            />
+          </div>
+
+          <div className="mt-9 flex w-full justify-end gap-3">
+            <Button className="w-fit" variant="secondary" onClick={handleBackClick} type="button">
+              Cancelar
+            </Button>
+            <Button className="w-fit" disabled={isSubmitting} type="submit">
+              Salvar {isSubmitting && <Loader2 size={16} className="ml-2" />}
+            </Button>
+          </div>
+        </form>
       </main>
 
       <ConfirmationDialog />

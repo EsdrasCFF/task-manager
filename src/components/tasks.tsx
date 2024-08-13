@@ -148,7 +148,7 @@ export function Tasks() {
       <AddTaskDialog
         isOpen={addTaskDialogIsOpen}
         handleCancelClick={handleCloseDialogClick}
-        handleSubmit={handleCreateTaksClick}
+        onSubmit={handleCreateTaksClick}
       />
     </div>
   )
