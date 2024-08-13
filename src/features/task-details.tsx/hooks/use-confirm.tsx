@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
 
-import { Button } from '../components/button'
+import { Button } from '../../../components/button'
 
 export function useConfirm(
   message: string,

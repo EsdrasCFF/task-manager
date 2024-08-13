@@ -11,8 +11,8 @@ import { ButtonWithIcon } from '../components/button-icon'
 import Input from '../components/input'
 import InputSelect from '../components/input-select'
 import { Sidebar } from '../components/sidebar'
+import { useConfirm } from '../features/task-details.tsx/hooks/use-confirm'
 import { TaskData } from '../features/tasks/helpers/task-data'
-import { useConfirm } from '../hooks/use-confirm'
 
 export const taksDetailsSchema = z.object({
   title: z.string().min(3, { message: 'Título da tarefa é obrigatório!' }).trim(),
