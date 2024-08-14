@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowLeft, ChevronRight, Loader2, Trash2 } from 'lucide-react'
-import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -11,8 +10,10 @@ import { ButtonWithIcon } from '../components/button-icon'
 import Input from '../components/input'
 import InputSelect from '../components/input-select'
 import { Sidebar } from '../components/sidebar'
+import { useGetTaskDetails } from '../features/task-details.tsx/api/use-get-task-details'
+import { useUpdateTask } from '../features/task-details.tsx/api/use-update-task'
 import { useConfirm } from '../features/task-details.tsx/hooks/use-confirm'
-import { TaskData } from '../features/tasks/helpers/task-data'
+import { useDeleteTaks } from '../features/tasks/api/use-delete-task'
 
 export const taksDetailsSchema = z.object({
   title: z.string().min(3, { message: 'Título da tarefa é obrigatório!' }).trim(),
@@ -25,17 +26,20 @@ export type TaskDetailsFormData = z.infer<typeof taksDetailsSchema>
 export default function TaskDetailsPage() {
   const { taskId } = useParams()
 
-  const [taks, setTask] = useState<TaskData | null>(null)
-  const [deleteIsLoading, setDeleteIsLoading] = useState(false)
-
   const {
     register,
-    handleSubmit,
     reset,
+    handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<TaskDetailsFormData>({
     resolver: zodResolver(taksDetailsSchema),
   })
+
+  const { data: task } = useGetTaskDetails(taskId!, reset)
+  const updateTaskMutation = useUpdateTask()
+  const deleteTaskMutation = useDeleteTaks()
+
+  const isLoading = updateTaskMutation.isPending || isSubmitting
 
   const [ConfirmationDialog, confirm] = useConfirm(
     'Gostaria de deletar esta tarefa',
@@ -52,60 +56,25 @@ export default function TaskDetailsPage() {
     const task = {
       title: data.title,
       description: data.description,
-      time: data.period,
+      period: data.period,
+      taskId: taskId!,
     }
 
-    const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
-      method: 'PATCH',
-      body: JSON.stringify(task),
-    })
-
-    if (!response.ok) {
-      toast.error('Erro ao atualizar tarefa!')
-      return
-    }
-
-    const updatedTask = await response.json()
-
-    setTask(updatedTask)
-    toast.success('Tarefa atualizada com sucesso!')
-    return
+    updateTaskMutation.mutate(task)
   }
 
   async function handleDeleteClick() {
-    setDeleteIsLoading(true)
     const ok = await confirm()
 
-    console.log({ ok })
     if (!ok) {
-      setDeleteIsLoading(false)
       return
     }
 
-    const response = await fetch(`http://localhost:3000/tasks/${taskId}`, { method: 'DELETE' })
-
-    if (!response.ok) {
-      toast.error('Ocorreu um erro ao deletar essa tarefa! Tente novamente.')
-      setDeleteIsLoading(false)
-      return
-    }
+    deleteTaskMutation.mutate({ taskId: taskId! })
 
     toast.success('Tarefa deletada com sucesso!')
     handleBackClick()
   }
-
-  useEffect(() => {
-    const fetchTaks = async () => {
-      const response = await fetch(`http://localhost:3000/tasks/${taskId}`)
-
-      const data: TaskData = await response.json()
-
-      setTask(data)
-      reset(data)
-    }
-
-    fetchTaks()
-  }, [taskId, reset])
 
   return (
     <div className="flex">
@@ -127,11 +96,11 @@ export default function TaskDetailsPage() {
               </p>
               <ChevronRight size={12} className="mx-1 text-textGray" />
               <span className="font-semibold capitalize leading-none text-primary">
-                {taks?.title}
+                {task?.title}
               </span>
             </div>
 
-            <p className="mt-1.5 text-xl font-semibold capitalize text-darkBlue">{taks?.title}</p>
+            <p className="mt-1.5 text-xl font-semibold capitalize text-darkBlue">{task?.title}</p>
           </div>
 
           <ButtonWithIcon
@@ -140,7 +109,7 @@ export default function TaskDetailsPage() {
             className="self-end"
             variant="destructive"
             onClick={handleDeleteClick}
-            disabled={deleteIsLoading}
+            disabled={deleteTaskMutation.isPending}
           />
         </div>
 
@@ -162,8 +131,8 @@ export default function TaskDetailsPage() {
             <Button className="w-fit" variant="secondary" onClick={handleBackClick} type="button">
               Cancelar
             </Button>
-            <Button className="w-fit" disabled={isSubmitting} type="submit">
-              Salvar {isSubmitting && <Loader2 size={16} className="ml-2" />}
+            <Button className="w-fit" disabled={isLoading} type="submit">
+              Salvar {isLoading && <Loader2 size={16} className="ml-2" />}
             </Button>
           </div>
         </form>

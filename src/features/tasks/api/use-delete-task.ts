@@ -23,18 +23,22 @@ export function useDeleteTaks() {
       const data = await response.json()
       return data
     },
-    onMutate: (json) => {
-      queryClient.setQueryData(['tasks'], (prevTasks: TaskData[]) => {
-        const tasks = prevTasks.filter((task) => task.id != json.taskId)
-        return tasks
-      })
-    },
+    // onMutate: (json) => {
+    //   queryClient.setQueryData(['tasks'], (prevTasks: TaskData[]) => {
+    //     const tasks = prevTasks.filter((task) => task.id != json.taskId)
+    //     return tasks
+    //   })
+    // },
     onError: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] })
       toast.error('Erro ao deletar tarefa!')
     },
-    onSuccess: () => {
+    onSuccess: (json) => {
       toast.success('Tarega deletada com sucesso!')
+      queryClient.setQueryData(['tasks'], (prevTasks: TaskData[]) => {
+        const tasks = prevTasks.filter((task) => task.id != json.id)
+        return tasks
+      })
     },
   })
 
