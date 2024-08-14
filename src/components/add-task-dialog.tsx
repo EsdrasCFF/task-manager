@@ -50,7 +50,7 @@ export function AddTaskDialog({ isOpen, onCancelClick }: Props) {
       id: uuidv4(),
       title: data.title,
       description: data.description,
-      time: data.period,
+      period: data.period,
       status: TaskStatus.NOT_STARTED,
     }
 

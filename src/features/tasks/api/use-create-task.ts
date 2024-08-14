@@ -6,7 +6,7 @@ import { TaskData } from '../helpers/task-data'
 type RequestType = {
   id: string
   title: string
-  time: string
+  period: string
   description: string
   status: string
 }

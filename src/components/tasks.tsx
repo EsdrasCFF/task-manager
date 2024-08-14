@@ -18,9 +18,9 @@ export function Tasks() {
 
   const { data: tasks } = useGetTasks()
 
-  const morningTasks = tasks?.filter((task) => task.time == 'morning')
-  const afternoonTasks = tasks?.filter((task) => task.time == 'afternoon')
-  const eveningTasks = tasks?.filter((task) => task.time == 'evening')
+  const morningTasks = tasks?.filter((task) => task.period == 'morning')
+  const afternoonTasks = tasks?.filter((task) => task.period == 'afternoon')
+  const eveningTasks = tasks?.filter((task) => task.period == 'evening')
 
   function handleCheckBoxClick(taskId: string) {
     let newStatus: string = ''
